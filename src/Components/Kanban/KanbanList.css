@@ -1,0 +1,20 @@
+.KanbanCanvas {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    width: 20rem;
+    background-color: lightgray;
+    padding: 0.5rem;
+    border-radius: 15px;
+}
+
+.KanbanList {
+    height: 88%;
+    width: 95%;
+    margin-top: auto;
+    background-color: white;
+    padding: 0.5rem;
+    border-radius: 15px;
+    position: relative;
+    overflow: scroll;
+}

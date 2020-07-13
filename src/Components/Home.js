@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
 
 
-class Menu extends Component {
+class Home extends Component {
     constructor () {
         super();
     }
 
     render() {
         return( 
-            <h1>Menu</h1>
+            <h1>Home</h1>
         );
     }
 }
 
-export default Menu 
+export default Home 

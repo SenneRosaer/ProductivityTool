@@ -1,7 +1,7 @@
 const {app, BrowserWindow, globalShortcut} = require('electron')
 
 function createWindow() {
-    win = new BrowserWindow({width:800, height:600})
+    win = new BrowserWindow({width:1600, height:1200})
     win.loadURL('http://localhost:3000/')
     win.removeMenu()
     win.webContents.openDevTools()
