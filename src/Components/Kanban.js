@@ -14,8 +14,8 @@ class Kanban extends Component {
             <div class="encaps">
             
 
-            <KanbanList id="list1"/>
-            <KanbanList id="list2"/>
+            <KanbanList text="First" id="list1"/>
+            <KanbanList text="Second" id="list2"/>
             </div>
             </div>
             

@@ -8,6 +8,11 @@ class KanbanList extends Component {
 
     constructor (){
         super()
+        this.state = {
+            items : []
+        }
+
+        this.addKanbanItem = this.addKanbanItem.bind(this)
     }
 
     drop(event) {
@@ -20,17 +25,23 @@ class KanbanList extends Component {
         event.preventDefault()
     }
 
+    addKanbanItem() {
+        var id = this.props.text + "" + this.state.items.length
+        
+        const obj = this.state
+        obj.items.push(id)
+        this.setState(obj)
+    }
+
     render(){
         return (
             <div class="KanbanCanvas">
-                <h4> First List </h4>
+                <div class="CanvasHeading">
+                <h4> {this.props.text} </h4>
+                <button onClick={this.addKanbanItem}>+</button>
+                </div>
                 <div class="KanbanList" onDrop={this.drop} onDragOver={this.allowDrop}>
-                    <KanbanItem id="kb1"/>
-                    <KanbanItem id="kb2"/>
-
-                    
-
-
+                    {this.state.items.map((number) => <KanbanItem id={number} />)}
                 </div>
             </div>
         )
