@@ -1,0 +1,4 @@
+.encaps {
+    display: flex;
+    flex-direction: row;
+}
