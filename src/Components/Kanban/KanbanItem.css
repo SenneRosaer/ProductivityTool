@@ -8,5 +8,17 @@
     padding: 0.5rem;
     border-radius: 15px;
     position: relative;
+    overflow: hidden;
     
+}
+
+.modal {
+    margin-top: 0px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.editor {
+    width: 100%;
+    height: 100%;
 }
