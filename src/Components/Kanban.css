@@ -1,4 +1,9 @@
 .encaps {
     display: flex;
     flex-direction: row;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    height: 100%;
+    width: 100%;
+    position: relative;
 }

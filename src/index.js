@@ -16,18 +16,18 @@ function App() {
       <BrowserRouter>
       <nav class="navbar">
         <ul class="navbar-nav">
-        <li class="nav-item">
+        <li class="nav-item navbar-top">
             <Link to="/" class="nav-link">
               Home
             </Link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item navbar-left">
             <Link to="/kanban" class="nav-link">
               Kanban
             </Link>
           </li>
 
-          <li class="nav-item">
+          <li class="nav-item navbar-left">
             <Link to="/lists" class="nav-link">
               Lists
             </Link>

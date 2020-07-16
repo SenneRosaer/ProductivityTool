@@ -1,26 +1,15 @@
-.KanbanItem{
-    
+
+.emptyItem {
     height: 10%;
     width: 99%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
-    background-color: lightblue;
+    background-color: white;
     padding: 0.5rem;
     border-radius: 15px;
     position: relative;
     overflow: hidden;
-    
-}
-
-.modal {
-    margin-top: 0px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.editor {
-    width: 100%;
-    height: 100%;
+    display: hidden;
 }

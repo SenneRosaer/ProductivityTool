@@ -40,6 +40,7 @@ main {
   position: fixed;
   background-color: var(--bg-primary);
   transition: width 200ms ease;
+  z-index: 100;
 
 }
 
@@ -95,6 +96,7 @@ main {
 
   .navbar:hover {
     height: 5rem;
+    position: fixed;
   }
 
   
@@ -120,9 +122,14 @@ main {
 
   .navbar:hover {
     width: 16rem;
+    position: fixed;
   }
   
 
 
   
+}
+
+.navbar-nav {
+  margin-bottom: auto;
 }
