@@ -1,9 +1,9 @@
 import React from 'react';
 import './EmptyItem.css';
 
-const EmptyItem = () => {
+const EmptyItem = (props) => {
     return(
-        <div class="emptyItem" id="emp"></div>
+        <div class="emptyItem" id={props.id}></div>
     )
 }
 

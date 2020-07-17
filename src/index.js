@@ -14,21 +14,21 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-      <nav class="navbar">
-        <ul class="navbar-nav">
-        <li class="nav-item navbar-top">
-            <Link to="/" class="nav-link">
+      <nav className="navbar">
+        <ul className="navbar-nav">
+        <li className="nav-item navbar-top">
+            <Link to="/" className="nav-link">
               Home
             </Link>
           </li>
-          <li class="nav-item navbar-left">
-            <Link to="/kanban" class="nav-link">
+          <li className="nav-item navbar-left">
+            <Link to="/kanban" className="nav-link">
               Kanban
             </Link>
           </li>
 
-          <li class="nav-item navbar-left">
-            <Link to="/lists" class="nav-link">
+          <li className="nav-item navbar-left">
+            <Link to="/lists" className="nav-link">
               Lists
             </Link>
           </li>

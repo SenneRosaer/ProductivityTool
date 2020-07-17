@@ -6,21 +6,21 @@ import { Modal } from 'react-bootstrap';
 
 class KanbanItem extends Component {
 
-    constructor() {
+    constructor(props) {
         super()
         this.state = {
-            text: '',
+            text: "",
             showModal: false
         }
-
         this.openEditor = this.openEditor.bind(this)
         this.handleClose = this.handleClose.bind(this)
         this.changeText = this.changeText.bind(this)
+        this.drag = this.drag.bind(this)
 
     }
 
     drag(event) {
-        event.dataTransfer.setData('text', event.target.id);
+        this.props.toParent(this.props.id);
     }
 
     openEditor() {
@@ -38,13 +38,14 @@ class KanbanItem extends Component {
     changeText(event) {
         const obj = this.state
         obj.text = event.currentTarget.value
+        this.props.text = event.currentTarget.value
         this.setState(obj)
     }
 
     render() {
         return (
             <>
-                <div class="KanbanItem" id={this.props.id} onDoubleClick={this.openEditor} draggable="true" onDragStart={this.drag}>
+                <div className="KanbanItem" id={this.props.id} onDoubleClick={this.openEditor} draggable="true" onDragStart={this.drag}>
                     {this.state.text}
                 </div>
                 <div className="modal">
@@ -54,7 +55,7 @@ class KanbanItem extends Component {
                         </Modal.Header>
                         <Modal.Body>
                             <textarea className="editor" rows="30" onChange={this.changeText}>
-                                {this.state.text}
+                                {this.props.text}
                             </textarea>
 
                         </Modal.Body>

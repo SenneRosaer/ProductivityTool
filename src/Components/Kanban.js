@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import KanbanList from './Kanban/KanbanList';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import "./Kanban.css"
@@ -6,18 +6,48 @@ class Kanban extends Component {
     constructor() {
         super();
         this.state = {
-            lists: []
+            lists: [],
+            listnames: [],
+            ref_lists: [],
+            moving: React.createRef(),
+            from: React.createRef(),
+
         }
 
         this.addKanbanList = this.addKanbanList.bind(this)
+        this.callback = this.callback.bind(this)
+
     }
 
     addKanbanList() {
 
         const obj = this.state
-        obj.lists.push(document.getElementById("add").value)
+        var ref = React.createRef()
+        obj.ref_lists.push(ref)
+
+        obj.listnames.push([document.getElementById("add").value,ref])
         this.setState(obj)
     }
+
+    callback(a, b) {
+        const obj = this.state
+        obj.moving = a
+        this.state.ref_lists.forEach((ref) => {
+            if (ref.current.props.text == b) {
+                obj.from = ref
+            }
+        })
+        this.setState(obj)
+    }
+
+    renderlists(){
+        
+        var rendering = this.state.listnames.map((result) => <KanbanList toParent={this.callback} 
+         moving={this.state.moving} 
+        from={this.state.from} ref={result[1]} text={result[0]} />)
+        return rendering
+    }
+
     render() {
         return (
             <div>
@@ -26,7 +56,9 @@ class Kanban extends Component {
                 <button onClick={this.addKanbanList}>+</button>
 
                 <div class="encaps">
-                        {this.state.lists.map((name) => <KanbanList text={name} />)}
+                    {
+                        this.renderlists()
+                    }
                 </div>
             </div>
 
