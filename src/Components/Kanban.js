@@ -15,8 +15,6 @@ class Kanban extends Component {
         }
 
         this.addKanbanList = this.addKanbanList.bind(this)
-        this.callback = this.callback.bind(this)
-
     }
 
     addKanbanList() {
@@ -29,16 +27,7 @@ class Kanban extends Component {
         this.setState(obj)
     }
 
-    callback(a, b) {
-        const obj = this.state
-        obj.moving = a
-        this.state.ref_lists.forEach((ref) => {
-            if (ref.current.props.text == b) {
-                obj.from = ref
-            }
-        })
-        this.setState(obj)
-    }
+    
 
     renderlists(){
         

@@ -9,8 +9,7 @@ class KanbanItem extends Component {
     constructor(props) {
         super()
         this.state = {
-            text: "",
-            showModal: false
+            showModal: props.showModal
         }
         this.openEditor = this.openEditor.bind(this)
         this.handleClose = this.handleClose.bind(this)
@@ -20,7 +19,9 @@ class KanbanItem extends Component {
     }
 
     drag(event) {
-        this.props.toParent(this.props.id);
+        var json = {id: event.currentTarget.id, state: this.state}
+        json.state.text = this.props.text
+        event.dataTransfer.setData("text", JSON.stringify(json))
     }
 
     openEditor() {
@@ -36,17 +37,14 @@ class KanbanItem extends Component {
     }
 
     changeText(event) {
-        const obj = this.state
-        obj.text = event.currentTarget.value
-        this.props.text = event.currentTarget.value
-        this.setState(obj)
+        this.props.changePropText(event.currentTarget.value, this.props.id)
     }
 
     render() {
         return (
             <>
                 <div className="KanbanItem" id={this.props.id} onDoubleClick={this.openEditor} draggable="true" onDragStart={this.drag}>
-                    {this.state.text}
+                    {this.props.text}
                 </div>
                 <div className="modal">
                     <Modal show={this.state.showModal} onHide={this.handleClose} >
@@ -54,7 +52,7 @@ class KanbanItem extends Component {
                             <Modal.Title>Modal heading</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <textarea className="editor" rows="30" onChange={this.changeText}>
+                            <textarea id="ree" className="editor" rows="30" onChange={this.changeText}>
                                 {this.props.text}
                             </textarea>
 
