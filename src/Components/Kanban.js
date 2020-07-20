@@ -2,6 +2,9 @@ import React, { Component, createRef } from 'react';
 import KanbanList from './Kanban/KanbanList';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import "./Kanban.css"
+import {addList} from '../Actions/Actions';
+import {connect} from 'react-redux';
+
 class Kanban extends Component {
     constructor() {
         super();
@@ -25,6 +28,7 @@ class Kanban extends Component {
 
         obj.listnames.push([document.getElementById("add").value,ref])
         this.setState(obj)
+        this.props.addList(document.getElementById("add").value,document.getElementById("add").value)
     }
 
     
@@ -54,5 +58,17 @@ class Kanban extends Component {
         );
     }
 }
+const mapStateToProps = function(state) {
+    return {
+        lists: state.lists
+    }
+}
 
-export default Kanban 
+
+const mapDispatchToProps = {
+    addList: addList
+}
+
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(Kanban) 

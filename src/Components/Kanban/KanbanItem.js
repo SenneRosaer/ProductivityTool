@@ -3,6 +3,8 @@ import './KanbanItem.css';
 import { Draggable } from 'react-beautiful-dnd';
 import { Component } from 'react';
 import { Modal } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import {changeItem} from '../../Actions/Actions';
 
 class KanbanItem extends Component {
 
@@ -68,4 +70,4 @@ class KanbanItem extends Component {
 }
 
 
-export default KanbanItem;
+export default KanbanItem

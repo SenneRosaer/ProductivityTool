@@ -6,6 +6,10 @@ import { Droppable } from 'react-beautiful-dnd';
 import { Component } from 'react';
 import { ReactDOM, unmountComponentAtNode } from 'react-dom';
 
+
+import { connect } from 'react-redux';
+import {changeItem, addItem, removeItem, changeAllItems} from '../../Actions/Actions';
+
 class KanbanList extends Component {
 
     constructor() {
@@ -22,6 +26,7 @@ class KanbanList extends Component {
         this.createItems = this.createItems.bind(this)
         this.callback = this.callback.bind(this)
     }
+
 
     drop(event) {
         event.preventDefault()
@@ -69,10 +74,13 @@ class KanbanList extends Component {
             var newrender = this.state.rendering
             newrender.push(transfer)
             this.setState({ rendering: newrender })
+            this.props.changeAllItems( this.state.rendering,this.props.text)
         } else {
             var newrender = this.state.rendering
             newrender.splice(insert_index, 0, transfer)
             this.setState({ rendering: newrender })
+            this.props.changeAllItems(this.state.rendering,this.props.text)
+
         }
 
 
@@ -91,6 +99,7 @@ class KanbanList extends Component {
         obj.createdItems += 1
         obj.rendering.push(renderingdata)
         this.setState(obj)
+        this.props.addItem(this.props.text, id, "")
     }
 
     CleanEmpty(event) {
@@ -102,7 +111,7 @@ class KanbanList extends Component {
                 var newrender = this.state.rendering
                 newrender.splice(i, 1)
                 this.setState({ rendering: newrender })
-
+                this.props.removeItem(transfer.id, this.props.text)
             }
         }
 
@@ -114,6 +123,7 @@ class KanbanList extends Component {
                 var newrender = this.state.rendering
                 newrender[i].state.text = text
                 this.setState({ rendering: newrender })
+                this.props.changeItem(this.props.text, id, text)
             }
         }
     }
@@ -145,4 +155,18 @@ class KanbanList extends Component {
     }
 }
 
-export default KanbanList
+const mapStateToProps = function(state) {
+    return {
+        lists: state.lists
+    }
+}
+
+
+const mapDispatchToProps = {
+    changeItem: changeItem,
+    addItem: addItem,
+    removeItem: removeItem,
+    changeAllItems: changeAllItems
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(KanbanList);
