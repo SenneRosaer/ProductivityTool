@@ -22,3 +22,7 @@ export function addList(id, text) {
 export function addTransfer(text) {
     return {type: 'ADD_TRANSFER', text: text}
 }
+
+export function removeList(text) {
+    return {type: 'REMOVE_LIST', id: text}
+}

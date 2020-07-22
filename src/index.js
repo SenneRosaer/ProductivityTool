@@ -10,15 +10,28 @@ import { BrowserRouter, Route, Router, Switch, Link, NavLink } from 'react-route
 import Lists from './Components/Lists';
 
 
-import { createStore } from 'redux';
-import reducer from './Reducers/Reducers';
+import { createStore, applyMiddleware } from 'redux';
+import rootReducer from './Reducers/Reducers';
 import { Provider } from 'react-redux';
-const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+import { persistStore, persistReducer} from 'redux-persist';
+import {PersistGate } from 'redux-persist/integration/react'
+import storage from 'redux-persist/lib/storage' 
 
+const persistConfig = {
+  key: 'root',
+  storage
+
+}
+
+const persistR = persistReducer(persistConfig, rootReducer)
+
+const store = createStore(persistR, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+const persistor = persistStore(store)
 
 function App() {
   return (
     <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
       <div>
         <BrowserRouter>
           <nav className="navbar">
@@ -52,6 +65,7 @@ function App() {
           </main>
         </BrowserRouter>
       </div>
+      </PersistGate>
     </Provider>
   );
 }

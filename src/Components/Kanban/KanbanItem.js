@@ -4,7 +4,7 @@ import { Draggable } from 'react-beautiful-dnd';
 import { Component } from 'react';
 import { Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { addTransfer } from '../../Actions/Actions';
+import { addTransfer} from '../../Actions/Actions';
 
 class KanbanItem extends Component {
 
@@ -21,7 +21,7 @@ class KanbanItem extends Component {
     }
 
     drag(event) {
-        var json = { id: event.currentTarget.id, state: this.state }
+        var json = {id: event.currentTarget.id, state: this.state}
         json.state.text = this.props.text
         event.dataTransfer.setData("text/plain", JSON.stringify(json))
         this.props.addTransfer(JSON.stringify(json))
@@ -43,10 +43,14 @@ class KanbanItem extends Component {
         this.props.changePropText(event.currentTarget.value, this.props.id)
     }
 
+    endDrag(event){
+        event.preventDefault()
+    }
+
     render() {
         return (
             <>
-                <div className="KanbanItem" id={this.props.id} onDoubleClick={this.openEditor} draggable="true" onDragStart={this.drag}>
+                <div className="KanbanItem" id={this.props.id} onDoubleClick={this.openEditor} draggable="true" onDragStart={this.drag} onDragEnd={this.endDrag}>
                     {this.props.text}
                 </div>
                 <div className="modal">
@@ -74,4 +78,4 @@ const mapDispatchToProps = {
 }
 
 
-export default connect(null, mapDispatchToProps)(KanbanItem)
+export default connect(null,mapDispatchToProps)(KanbanItem)

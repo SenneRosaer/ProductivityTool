@@ -35,6 +35,15 @@ class Kanban extends Component {
         return rendering
     }
 
+    drop(event) {
+        event.preventDefault()
+    }
+
+    onDragOver(event) {
+        event.preventDefault()
+    }
+
+
     render() {
         return (
             <div>
@@ -54,7 +63,8 @@ class Kanban extends Component {
 }
 const mapStateToProps = function (state) {
     return {
-        lists: state.lists
+        lists: state.root.lists,
+        amount : state.root.lists.length
     }
 }
 

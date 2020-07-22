@@ -51,6 +51,10 @@ button{
     
 }
 
+.rembtn {
+    margin-left: 0.5rem;
+}
+
 .CanvasHeading {
     display: flex;
     flex-direction: row;

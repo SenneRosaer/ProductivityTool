@@ -1,9 +1,10 @@
-const { bindActionCreators } = require("redux")
+import {combineReducers} from 'redux';
 
 const initialState = {
     lists: [],
     transfer: ""
 }
+
 
 function reducer(state = initialState, action) {
     switch (action.type) {
@@ -61,9 +62,21 @@ function reducer(state = initialState, action) {
         case 'ADD_TRANSFER':
             return {...state, transfer: action.text}
 
+        case 'REMOVE_LIST':
+            var tmp = Object.assign({}, state)
+            for(var i = 0; i < tmp.lists.length; i++) {
+                if (tmp.lists[i].id == action.id){
+                    tmp.lists.splice(i,1)
+                    return tmp
+                }
+            } 
         default:
             return state
     }
 }
 
-export default reducer
+const rootReducer = combineReducers({
+    root: reducer
+})
+
+export default rootReducer

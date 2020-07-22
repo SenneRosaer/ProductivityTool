@@ -3,7 +3,7 @@ import './KanbanList.css';
 import KanbanItem from "./KanbanItem";
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { changeItem, addItem, removeItem, changeAllItems } from '../../Actions/Actions';
+import { changeItem, addItem, removeItem, changeAllItems, removeList } from '../../Actions/Actions';
 
 class KanbanList extends Component {
 
@@ -19,6 +19,7 @@ class KanbanList extends Component {
         this.createItems = this.createItems.bind(this)
         this.callback = this.callback.bind(this)
         this.getCorrectListFromRedux = this.getCorrectListFromRedux.bind(this)
+        this.removeList = this.removeList.bind(this)
     }
 
 
@@ -95,6 +96,11 @@ class KanbanList extends Component {
         this.props.addItem(this.props.text, id, "")
     }
 
+
+    removeList() {
+        this.props.removeList(this.props.text)
+    }
+
     getCorrectListFromRedux() {
         var text = this.props.text
         for (var i = 0; i < this.props.lists.length; i++) {
@@ -151,6 +157,8 @@ class KanbanList extends Component {
                     <div className="CanvasHeading">
                         <h4 class="CanvasTitle"> {this.props.text} </h4>
                         <button class="addbtn" onClick={this.addKanbanItem}><b>+</b></button>
+                        <button class="rembtn" onClick={this.removeList}><b>-</b></button>
+
                     </div>
                     <div className="KanbanList" id={this.props.text} onDrop={this.drop} onDragOver={this.allowDrop} onDragLeave={this.CleanEmpty}>
                         {this.createItems()}
@@ -163,8 +171,8 @@ class KanbanList extends Component {
 
 const mapStateToProps = function (state) {
     return {
-        lists: state.lists,
-        transfer: state.transfer
+        lists: state.root.lists,
+        transfer: state.root.transfer
     }
 }
 
@@ -172,7 +180,8 @@ const mapDispatchToProps = {
     changeItem: changeItem,
     addItem: addItem,
     removeItem: removeItem,
-    changeAllItems: changeAllItems
+    changeAllItems: changeAllItems,
+    removeList: removeList
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(KanbanList);
