@@ -9,7 +9,7 @@ function reducer(state = initialState, action) {
     switch (action.type) {
         case 'ADD_ITEM':
             var tmp = Object.assign({}, state)
-            for (var index = 0; index < tmp.lists.length; i++) {
+            for (var index = 0; index < tmp.lists.length; index++) {
                 if (tmp.lists[index].id == action.list_id) {
                     tmp.lists[index].items.push({ id: action.item_id, state :{ text: action.text, showModal: false }})
                     return tmp
@@ -18,7 +18,7 @@ function reducer(state = initialState, action) {
             return tmp
         case 'CHANGE_ITEM':
             var tmp = Object.assign({}, state)
-            for (var index = 0; index < tmp.lists.length; i++) {
+            for (var index = 0; index < tmp.lists.length; index++) {
                 if (tmp.lists[index].id == action.list_id) {
                     for (var i = 0; i < tmp.lists[index].items.length; i++) {
                         if (tmp.lists[index].items[i].id == action.item_id){

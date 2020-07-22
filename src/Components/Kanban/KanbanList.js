@@ -1,12 +1,7 @@
 import React from 'react';
 import './KanbanList.css';
 import KanbanItem from "./KanbanItem";
-import EmptyItem from "./EmptyItem";
-import { Droppable } from 'react-beautiful-dnd';
 import { Component } from 'react';
-import { ReactDOM, unmountComponentAtNode } from 'react-dom';
-
-
 import { connect } from 'react-redux';
 import { changeItem, addItem, removeItem, changeAllItems } from '../../Actions/Actions';
 
@@ -15,12 +10,10 @@ class KanbanList extends Component {
     constructor() {
         super()
         this.state = {
-            rendering: [],
             createdItems: 0
         }
 
         this.addKanbanItem = this.addKanbanItem.bind(this)
-        this.allowDrop = this.allowDrop.bind(this)
         this.drop = this.drop.bind(this)
         this.CleanEmpty = this.CleanEmpty.bind(this)
         this.createItems = this.createItems.bind(this)
@@ -96,7 +89,6 @@ class KanbanList extends Component {
 
     addKanbanItem() {
         var id = this.props.text + "_item_" + this.state.createdItems
-        var renderingdata = { id: id, state: { text: "", showModal: false } }
         const obj = this.state
         obj.createdItems += 1
         this.setState(obj)
@@ -119,7 +111,6 @@ class KanbanList extends Component {
         for (var i = 0; i < list.length; i++) {
             if (list[i].id == transfer.id) {
                 this.props.removeItem(transfer.id, this.props.text)
-                //TODO fixen 
                 this.forceUpdate()
             }
         }
@@ -135,15 +126,7 @@ class KanbanList extends Component {
             }
         }
     }
-
-    componentWillReceiveProps() {
-        console.log("yeet")
-    }
-
-    componentWillUpdate() {
-        console.log("??")
-    }
-
+        
     createItems() {
         var callback = this.callback
         var test = this.props.text
@@ -166,8 +149,8 @@ class KanbanList extends Component {
             <>
                 <div className="KanbanCanvas">
                     <div className="CanvasHeading">
-                        <h4> {this.props.text} </h4>
-                        <button onClick={this.addKanbanItem}>+</button>
+                        <h4 class="CanvasTitle"> {this.props.text} </h4>
+                        <button class="addbtn" onClick={this.addKanbanItem}><b>+</b></button>
                     </div>
                     <div className="KanbanList" id={this.props.text} onDrop={this.drop} onDragOver={this.allowDrop} onDragLeave={this.CleanEmpty}>
                         {this.createItems()}

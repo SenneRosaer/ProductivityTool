@@ -6,4 +6,9 @@
     height: 100%;
     width: 100%;
     position: relative;
+    margin-top: 1rem;
+}
+
+.addlist {
+    margin-left: 0.5rem;
 }
