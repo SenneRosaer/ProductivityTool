@@ -25,19 +25,29 @@ class Kanban extends Component {
         const obj = this.state
         var ref = React.createRef()
         obj.ref_lists.push(ref)
-
+        var canadd = true
+        this.props.lists.forEach(element => {
+            if(element.id == document.getElementById("add").value){
+                canadd = false
+            }
+        });
+        if (canadd){
         obj.listnames.push([document.getElementById("add").value,ref])
-        this.setState(obj)
         this.props.addList(document.getElementById("add").value,document.getElementById("add").value)
+
+        this.setState(obj)
+        } else {
+            window.alert("Cannot have duplicate list names")
+        }
     }
 
     
 
     renderlists(){
         
-        var rendering = this.state.listnames.map((result) => <KanbanList toParent={this.callback} 
+        var rendering = this.props.lists.map((result) => <KanbanList toParent={this.callback} 
          moving={this.state.moving} 
-        from={this.state.from} ref={result[1]} text={result[0]} />)
+        from={this.state.from} text={result.id} />)
         return rendering
     }
 

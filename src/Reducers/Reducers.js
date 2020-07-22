@@ -1,7 +1,8 @@
 const { bindActionCreators } = require("redux")
 
 const initialState = {
-    lists: []
+    lists: [],
+    transfer: ""
 }
 
 function reducer(state = initialState, action) {
@@ -45,10 +46,10 @@ function reducer(state = initialState, action) {
         
         case 'REMOVE_ITEM':
             var tmp = Object.assign({}, state)
-            for(var i = 0; i < state.lists.length; i++) {
-                if (state.lists[i].id == action.listid){
-                    for(var j = 0; j < state.lists[i].items.length; i++){
-                        if (state.lists[i].items[j].id == action.id){
+            for(var i = 0; i < tmp.lists.length; i++) {
+                if (tmp.lists[i].id == action.listid){
+                    for(var j = 0; j < tmp.lists[i].items.length; j++){
+                        if (tmp.lists[i].items[j].id == action.id){
                             tmp.lists[i].items.splice(j,1)
                             return tmp
                         }
@@ -56,6 +57,10 @@ function reducer(state = initialState, action) {
 
                 }
             } 
+
+        case 'ADD_TRANSFER':
+            return {...state, transfer: action.text}
+
         default:
             return state
     }

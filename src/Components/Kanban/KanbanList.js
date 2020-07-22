@@ -8,7 +8,7 @@ import { ReactDOM, unmountComponentAtNode } from 'react-dom';
 
 
 import { connect } from 'react-redux';
-import {changeItem, addItem, removeItem, changeAllItems} from '../../Actions/Actions';
+import { changeItem, addItem, removeItem, changeAllItems } from '../../Actions/Actions';
 
 class KanbanList extends Component {
 
@@ -16,7 +16,7 @@ class KanbanList extends Component {
         super()
         this.state = {
             rendering: [],
-            createdItems : 0
+            createdItems: 0
         }
 
         this.addKanbanItem = this.addKanbanItem.bind(this)
@@ -25,6 +25,7 @@ class KanbanList extends Component {
         this.CleanEmpty = this.CleanEmpty.bind(this)
         this.createItems = this.createItems.bind(this)
         this.callback = this.callback.bind(this)
+        this.getCorrectListFromRedux = this.getCorrectListFromRedux.bind(this)
     }
 
 
@@ -35,28 +36,29 @@ class KanbanList extends Component {
         var transfer = JSON.parse(event.dataTransfer.getData("text"))
         var data = transfer.id
 
-        for (var i = 0; i < this.state.rendering.length; i++) {
-            if (this.state.rendering[i].id == transfer.id) {
-                var newrender = this.state.rendering
-                newrender.splice(i, 1)
-                this.setState({ rendering: newrender })
+        var list = this.getCorrectListFromRedux()
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].id == transfer.id) {
+                this.props.removeItem(transfer.id, this.props.text)
+
             }
         }
 
 
 
         var insert_index = 0
-        if (this.state.rendering.length > 0) {
-            var first_rect = document.getElementById(this.state.rendering[0].id).getBoundingClientRect()
-            var last_rect = document.getElementById(this.state.rendering[this.state.rendering.length - 1].id).getBoundingClientRect()
+        list = this.getCorrectListFromRedux()
+        if (list.length > 0) {
+            var first_rect = document.getElementById(list[0].id).getBoundingClientRect()
+            var last_rect = document.getElementById(list[list.length - 1].id).getBoundingClientRect()
             if (event.pageY < (first_rect.top + first_rect.bottom) / 2) {
                 insert_index = 0
             } else if (event.pageY > (first_rect.top + first_rect.bottom) / 2 && event.pageY < (last_rect.top + last_rect.bottom) / 2) {
-                for (var index = 0; index < this.state.rendering.length - 1; index++) {
-                    var rect = document.getElementById(this.state.rendering[index].id).getBoundingClientRect()
+                for (var index = 0; index < list.length - 1; index++) {
+                    var rect = document.getElementById(list[index].id).getBoundingClientRect()
                     var ely = (rect.top + rect.bottom) / 2
 
-                    var rect2 = document.getElementById(this.state.rendering[index + 1].id).getBoundingClientRect()
+                    var rect2 = document.getElementById(list[index + 1].id).getBoundingClientRect()
                     var ely2 = (rect2.top + rect2.bottom) / 2
 
                     if (event.pageY > ely && event.pageY < ely2) {
@@ -71,15 +73,15 @@ class KanbanList extends Component {
         }
 
         if (insert_index == -1) {
-            var newrender = this.state.rendering
+            var newrender = [...list]
             newrender.push(transfer)
-            this.setState({ rendering: newrender })
-            this.props.changeAllItems( this.state.rendering,this.props.text)
+            this.props.changeAllItems(newrender, this.props.text)
+            this.forceUpdate()
         } else {
-            var newrender = this.state.rendering
+            var newrender = [...list]
             newrender.splice(insert_index, 0, transfer)
-            this.setState({ rendering: newrender })
-            this.props.changeAllItems(this.state.rendering,this.props.text)
+            this.props.changeAllItems(newrender, this.props.text)
+            this.forceUpdate()
 
         }
 
@@ -97,40 +99,61 @@ class KanbanList extends Component {
         var renderingdata = { id: id, state: { text: "", showModal: false } }
         const obj = this.state
         obj.createdItems += 1
-        obj.rendering.push(renderingdata)
         this.setState(obj)
         this.props.addItem(this.props.text, id, "")
     }
 
-    CleanEmpty(event) {
-        event.preventDefault()
-        var transfer = JSON.parse(event.dataTransfer.getData("text"))
-
-        for (var i = 0; i < this.state.rendering.length; i++) {
-            if (this.state.rendering[i].id == transfer.id) {
-                var newrender = this.state.rendering
-                newrender.splice(i, 1)
-                this.setState({ rendering: newrender })
-                this.props.removeItem(transfer.id, this.props.text)
+    getCorrectListFromRedux() {
+        var text = this.props.text
+        for (var i = 0; i < this.props.lists.length; i++) {
+            if (this.props.lists[i].id == text) {
+                return this.props.lists[i].items
             }
         }
 
     }
 
-    callback (text, id) {
-        for (var i = 0; i < this.state.rendering.length; i++) {
-            if (this.state.rendering[i].id == id) {
-                var newrender = this.state.rendering
-                newrender[i].state.text = text
-                this.setState({ rendering: newrender })
-                this.props.changeItem(this.props.text, id, text)
+    CleanEmpty(event) {
+        var transfer = JSON.parse(this.props.transfer)
+        var list = this.getCorrectListFromRedux()
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].id == transfer.id) {
+                this.props.removeItem(transfer.id, this.props.text)
+                //TODO fixen 
+                this.forceUpdate()
             }
         }
+
+    }
+
+    callback(text, id) {
+        var list = this.getCorrectListFromRedux()
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].id == id) {
+                this.props.changeItem(this.props.text, id, text)
+                this.forceUpdate()
+            }
+        }
+    }
+
+    componentWillReceiveProps() {
+        console.log("yeet")
+    }
+
+    componentWillUpdate() {
+        console.log("??")
     }
 
     createItems() {
         var callback = this.callback
-        var render = this.state.rendering.map(function (element) {
+        var test = this.props.text
+        var tmp
+        this.props.lists.forEach(element => {
+            if (element.id == test) {
+                tmp = element
+            }
+        });
+        var render = tmp.items.map(function (element) {
             return <KanbanItem id={element.id} text={element.state.text} showModal={element.state.showModal} changePropText={callback} />
 
 
@@ -138,7 +161,7 @@ class KanbanList extends Component {
         return render
     }
 
-    render() {  
+    render() {
         return (
             <>
                 <div className="KanbanCanvas">
@@ -155,12 +178,12 @@ class KanbanList extends Component {
     }
 }
 
-const mapStateToProps = function(state) {
+const mapStateToProps = function (state) {
     return {
-        lists: state.lists
+        lists: state.lists,
+        transfer: state.transfer
     }
 }
-
 
 const mapDispatchToProps = {
     changeItem: changeItem,
@@ -169,4 +192,4 @@ const mapDispatchToProps = {
     changeAllItems: changeAllItems
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(KanbanList);
+export default connect(mapStateToProps, mapDispatchToProps)(KanbanList);

@@ -17,3 +17,8 @@ export function removeItem(id, listid){
 export function addList(id, text) {
     return {type: 'ADD_LIST', id, text}
 }
+
+
+export function addTransfer(text) {
+    return {type: 'ADD_TRANSFER', text: text}
+}
