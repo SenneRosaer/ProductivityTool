@@ -23,9 +23,7 @@
   "scripts": {
     "start": "export BROWSER=none && react-scripts start",
     "electron-start": "export ELECTRON_START_URL=http://localhost:3000 && electron .",
-    "build": "react-scripts build",
-    "build-electron": "build/src && cp -r electron/. build/electron && cp -r src/shared/. build/src/shared",
-    "package": "electron-builder build --mac --win -c.extraMetadata.main=build/electron/main.js --publish never"
+    "build": "react-scripts build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -44,16 +42,5 @@
   },
   "devDependencies": {
     "electron": "^9.1.1"
-  },
-  "build": {
-    "files": [
-      "build/**/*",
-      "node_modules/**/*"
-    ],
-    "publish": {
-      "provider": "github",
-      "repo": "electron-cra-example",
-      "owner": "johndyer24"
-    }
   }
 }

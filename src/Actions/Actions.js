@@ -26,3 +26,7 @@ export function addTransfer(text) {
 export function removeList(text) {
     return {type: 'REMOVE_LIST', id: text}
 }
+
+export function placeBack() {
+    return {type: 'PLACE_BACK'}
+}

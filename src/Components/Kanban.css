@@ -12,3 +12,10 @@
 .addlist {
     margin-left: 0.5rem;
 }
+
+.delete {
+    border-radius: 8px;
+    width: auto;
+    margin-left: 2rem
+    
+}

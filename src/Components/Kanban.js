@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import KanbanList from './Kanban/KanbanList';
 import "./Kanban.css"
-import { addList } from '../Actions/Actions';
+import { addList, placeBack } from '../Actions/Actions';
 import { connect } from 'react-redux';
 
 class Kanban extends Component {
     constructor() {
         super();
         this.addKanbanList = this.addKanbanList.bind(this)
+        this.drop = this.drop.bind(this)
     }
 
     addKanbanList() {
@@ -37,20 +38,32 @@ class Kanban extends Component {
 
     drop(event) {
         event.preventDefault()
+        if (event.target.className != "KanbanList" && event.target.className != "delete"){
+            this.props.placeBack()
+            this.forceUpdate()
+        } else if (event.target.className == "delete") {
+            
+        }
+        
     }
 
     onDragOver(event) {
         event.preventDefault()
     }
 
+    async allowDrop(event) {
+        event.preventDefault()
+
+    }
+
 
     render() {
         return (
-            <div>
+            <div onDrop={this.drop} onDragOver={this.allowDrop}>
                 <h1>Kanban</h1>
                 <input id="add"></input>
                 <button class="addlist" onClick={this.addKanbanList}><b>+</b></button>
-
+                <button className="delete" onDrop={this.drop} onDragOver={this.allowDrop} disabled>Delete</button>
                 <div class="encaps">
                     {
                         this.renderlists()
@@ -70,7 +83,8 @@ const mapStateToProps = function (state) {
 
 
 const mapDispatchToProps = {
-    addList: addList
+    addList: addList,
+    placeBack: placeBack
 }
 
 
